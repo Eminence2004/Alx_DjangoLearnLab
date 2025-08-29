@@ -2,13 +2,12 @@
 
 ## Command
 ```python
+
+from bookshelf.models import Book
 retrieved_book.delete()
 Book.objects.all()
-```
 
-## Expected Output
-```python
+
+
 <QuerySet []>
-```
 
-✅ Book instance deleted successfully.
