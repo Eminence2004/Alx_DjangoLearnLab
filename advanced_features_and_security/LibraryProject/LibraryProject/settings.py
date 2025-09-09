@@ -146,7 +146,7 @@ SESSION_COOKIE_SECURE = True
 
 
 # ========================================
-# 🔒 HTTPS and Secure Redirect Settings
+# 🔒 Security Settings
 # ========================================
 
 # Redirect all HTTP requests to HTTPS
@@ -166,6 +166,5 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
 
-
-
-
+# Recognize HTTPS requests when behind a proxy (e.g., Nginx)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
