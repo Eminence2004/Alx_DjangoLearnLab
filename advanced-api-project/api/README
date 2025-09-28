@@ -1,0 +1,6 @@
+### API Endpoints
+- `GET /api/books/` – list all books (public)
+- `GET /api/books/<id>/` – retrieve single book (public)
+- `POST /api/books/create/` – create a new book (auth required)
+- `PUT /api/books/<id>/update/` – update book (auth required)
+- `DELETE /api/books/<id>/delete/` – delete book (auth required)
