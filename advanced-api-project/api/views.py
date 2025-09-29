@@ -1,21 +1,24 @@
-# api/views.py
+# advanced-api-project/api/views.py
 from rest_framework import generics, permissions
 from .models import Book
 from .serializers import BookSerializer
-from django.shortcuts import render
 
-class BookListCreateView(generics.ListCreateAPIView):
+# List all books (anyone can view)
+class ListView(generics.ListAPIView):
+    """
+    Returns a list of all books.
+    Accessible to anyone (read-only).
+    """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated]  # for example
+    permission_classes = [permissions.AllowAny]
 
-class BookUpdateView(generics.UpdateAPIView):
+# Retrieve a single book’s detail (only authenticated)
+class DetailView(generics.RetrieveAPIView):
+    """
+    Returns the details of a single book.
+    Accessible to authenticated users.
+    """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-class BookDeleteView(generics.DestroyAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
