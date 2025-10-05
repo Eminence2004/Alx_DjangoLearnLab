@@ -22,4 +22,7 @@ urlpatterns = [
     path('post/<int:pk>/comments/new/', add_comment, name='comment-create'),
     path('comment/<int:pk>/update/', edit_comment, name='comment-update'),
     path('comment/<int:pk>/delete/', delete_comment, name='comment-delete'),
+    path('search/', search_posts, name='post-search'),
+
 ]
+
