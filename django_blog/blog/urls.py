@@ -1,4 +1,5 @@
 from django.urls import path
+from .views import search_posts, posts_by_tag
 from .views import (
     PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView,
     CommentCreateView, CommentUpdateView, CommentDeleteView,
@@ -21,4 +22,8 @@ urlpatterns = [
     # auth/profile
     path('register/', register, name='register'),
     path('profile/', profile, name='profile'),
+
+    path('search/', search_posts, name='post-search'),                
+    path('tags/<str:tag_name>/', posts_by_tag, name='posts-by-tag'), 
 ]
+
