@@ -12,6 +12,13 @@ from .models import Post, Comment
 from .forms import PostForm
 from .forms import CommentForm
 from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserChangeForm
+from django.shortcuts import render, redirect
+
+
+# registration view already:
+from .forms import CustomUserCreationForm
 
 
 # --- List all posts ---
@@ -104,4 +111,28 @@ def delete_comment(request, pk):
     post_id = comment.post.pk
     if comment.author == request.user:
         comment.delete()
+
     return redirect('post-detail', pk=post_id)
+
+
+
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        form = UserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UserChangeForm(instance=request.user)
+    return render(request, 'registration/profile.html', {'form': form})
