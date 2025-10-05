@@ -1,4 +1,3 @@
-# blog/views.py
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -15,20 +14,18 @@ from django.contrib.auth.forms import UserChangeForm
 from .models import Post, Comment
 from .forms import PostForm, CommentForm, CustomUserCreationForm
 
-# --- List all posts ---
+# --- Post views ---
 class PostListView(ListView):
     model = Post
     template_name = 'blog/post_list.html'
     context_object_name = 'posts'
     ordering = ['-created_at']
 
-# --- Show one post ---
 class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
     context_object_name = 'post'
 
-# --- Create a new post (must be logged in) ---
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
@@ -38,7 +35,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-# --- Update an existing post (must be author) ---
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
@@ -52,7 +48,6 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         post = self.get_object()
         return self.request.user == post.author
 
-# --- Delete a post (must be author) ---
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'blog/post_confirm_delete.html'
@@ -62,7 +57,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         post = self.get_object()
         return self.request.user == post.author
 
-# --- Comments CRUD (class-based views) ---
+# --- Comment views ---
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     form_class = CommentForm
@@ -100,7 +95,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         return self.object.post.get_absolute_url()
 
-# --- Registration & profile ---
+# --- Auth & profile ---
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -121,4 +116,3 @@ def profile(request):
     else:
         form = UserChangeForm(instance=request.user)
     return render(request, 'registration/profile.html', {'form': form})
-
