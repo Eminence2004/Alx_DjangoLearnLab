@@ -1,16 +1,13 @@
 from django import forms
-from .models import Post
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from .models import Comment
 
-class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        model = Comment
+        fields = ['content']  # only let user edit content
 
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ['title', 'content', 'tags']  # <— include tags
+    def clean_content(self):
+        content = self.cleaned_data.get('content')
+        if len(content.strip()) < 3:
+            raise forms.ValidationError('Comment must be at least 3 characters long.')
+        return content
