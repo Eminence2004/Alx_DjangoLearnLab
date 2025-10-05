@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+
 from django.views.generic import (
     ListView,
     DetailView,
@@ -133,4 +134,9 @@ def search_posts(request):
 def posts_by_tag(request, tag_name):
     posts = Post.objects.filter(tags__name__in=[tag_name])
     return render(request, 'blog/posts_by_tag.html', {'posts': posts, 'tag': tag_name})
+
+
+
+
+
 
