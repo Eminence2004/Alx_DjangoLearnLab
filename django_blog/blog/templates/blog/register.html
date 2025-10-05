@@ -1,12 +1,10 @@
-{% extends "blog/base.html" %}
-
-{% block title %}Register{% endblock %}
-
+<!-- templates/registration/register.html -->
+{% extends 'blog/base.html' %}
 {% block content %}
-<h2>Register</h2>
-<form method="post">
+  <h2>Register</h2>
+  <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Sign up</button>
-</form>
+    <button type="submit">Register</button>
+  </form>
 {% endblock %}
